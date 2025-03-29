@@ -4,10 +4,41 @@
     <meta charset="UTF-8">
     <title>Dungeon!</title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Dungeon!</h1>
-    <div class="container"></div>
+    <div id="start-menu">
+        <h1>WELCOME TO DUNGEON!</h1>
+        <button id="start-button">Start Game</button>
+    </div>
+    <div id="doors">
+        <h2>Pick a door!</h2>
+        <img class="door" id="door1" src="img/closed_door.png">
+        <img class="door" id="door2" src="img/closed_door.png">
+        <img class="door" id="door3" src="img/closed_door.png">
+    </div>
+    <div id="item">
+        item
+    </div>
+    <div id="trap">
+        trap
+    </div>
+    <div id="battle">
+        battle
+    </div>
+    <div id="menu">
+        <h3>Inventory</h3>
+        <ul id="inventory-list">
+            <li>Sword</li>
+            <li>Shield</li>
+            <li>Potion</li>
+        </ul>
+        <h3>Options</h3>
+        <ul>
+            <li>Settings</li>
+            <li>Help</li>
+        </ul>
+    </div>
+    <script src="game.js"></script>
 </body>
-<script src="app.js"></script>
 </html>
