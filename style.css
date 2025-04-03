@@ -3,6 +3,7 @@
 }
 
 body {
+    cursor: none;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -12,6 +13,15 @@ body {
     height: 100vh;
     background-color: #333;
     color: white;
+}
+
+.custom-cursor {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
 }
 
 h1, h2 {
@@ -26,9 +36,9 @@ h1, h2 {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
     transition: 0.2s all ease-in-out;
     border-radius: 5px;
+    cursor: none;
 }
 
 button:hover {
@@ -43,7 +53,6 @@ button:hover {
 .door:hover {
     content: url("img/opened_door.png");
     transform: scale(1.025);
-    cursor: pointer;
 }
 
 #start-menu {
@@ -101,7 +110,6 @@ button:hover {
 
 #menu ul li {
     margin: 10px 0;
-    cursor: pointer;
 }
 
 #menu ul li:hover {
