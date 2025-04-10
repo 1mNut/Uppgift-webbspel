@@ -12,6 +12,12 @@
         <h1>WELCOME TO DUNGEON!</h1>
         <button id="start-button">Start Game</button>
     </div>
+    <div id="choose-name">
+        <div class="container">
+            <input type="text" id="user-input" placeholder="Enter username" autocomplete="off">
+            <button id="submit-button">Submit</button>
+        </div>
+    </div>
     <div id="doors">
         <h2>Pick a door!</h2>
         <img class="door" id="door1" src="img/closed_door.png">
@@ -19,20 +25,21 @@
         <img class="door" id="door3" src="img/closed_door.png">
     </div>
     <div id="item">
-        item
+        <h5>Pick an item!<h5>
+        
     </div>
     <div id="trap">
         trap
     </div>
     <div id="battle">
-        battle
+        <h4>Battle!<h5>
     </div>
     <div id="menu">
-        <h3>Inventory</h3>
+        <h3>Player</h3>
         <ul id="inventory-list">
-            <li>Sword</li>
-            <li>Shield</li>
-            <li>Potion</li>
+            <li>Inventory</li>
+            <li>Stats</li>
+            <li></li>
         </ul>
         <h3>Options</h3>
         <ul>
@@ -40,6 +47,6 @@
             <li>Help</li>
         </ul>
     </div>
-    <script src="game.js"></script>
+    <script src="game.js" src="classes.js"></script>
 </body>
 </html>

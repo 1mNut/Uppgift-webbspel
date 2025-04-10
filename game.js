@@ -8,23 +8,42 @@ document.addEventListener("mousemove", (e) => {
 function startMenu() {
   const startButton = document.getElementById("start-button");
   const startMenu = document.getElementById("start-menu");
-  const pickDoor = document.getElementById("doors");
-  const slideMenu = document.getElementById("menu");
-
-  slideMenu.style.display = "none";
+  const chooseName = document.getElementById("choose-name");
 
   startButton.addEventListener("click", () => {
     startMenu.style.display = "none";
-    pickDoor.style.display = "block";
+    chooseName.style.display = "block";
 
-    slideMenu.style.display = "flex";
-
-    startGame();
+    createName();
   });
 }
 
-function startGame() {
-  console.log("Game started!");
+function createName() {
+  const pickDoor = document.getElementById("doors");
+  const submitButton = document.getElementById("submit-button");
+  const slideMenu = document.getElementById("menu");
+  const chooseName = document.getElementById("choose-name");
+  const userInput = document.getElementById("user-input");
+
+  submitButton.addEventListener("click", () => {
+    const playerName = userInput.value.trim();
+
+    if (playerName === "") {
+      alert("Please enter a valid name!");
+      return;
+    }
+
+    const player = new Player(playerName, 100, 20);
+
+    chooseName.style.display = "none";
+    pickDoor.style.display = "block";
+    slideMenu.style.display = "flex";
+    startGame(player);
+  });
+}
+
+function startGame(player) {
+  console.log(`Game started with player:${player.name}`);
   const doors = document.querySelectorAll(".door");
 
   doors.forEach((door) => {
@@ -68,6 +87,27 @@ function battle() {
   const pickDoor = document.getElementById("doors");
   gameBattle.style.display = "block";
   pickDoor.style.display = "none";
+}
+
+class Player {
+  constructor(name, health, attack) {
+    this.name = name;
+    this.health = health;
+    this.attack = attack;
+  }
+}
+
+const ItemImg = [
+  "img/item/1.png",
+  "img/item/2.png",
+  "img/item/3.png",
+  "img/item/4.png",
+  "img/item/5.png",
+  "img/item/6.png",
+];
+
+function randomItem() {
+  const randomitem = M;
 }
 
 window.onload = startMenu;
