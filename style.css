@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    box-shadow: 0 0 15px red;
 }
 
 body {
@@ -45,14 +46,26 @@ button:hover {
     transform: scale(1.1);
 }
 
+@keyframes doorHover {
+    0% {
+        content: url("img/door/closed.png");
+    }
+    50% {
+        content: url("img/door/slightly_opened.png");
+    }
+    100% {
+        content: url("img/door/opened.png");
+    }
+}
+
 .door {
-    height: 60vh;
+    height: 55vh;
     transition: transform 0.2s ease-in-out;
 }
 
 .door:hover {
-    content: url("img/opened_door.png");
-    transform: scale(1.025);
+    animation: doorHover 0.4s forwards; /* Play the animation on hover */
+    transform: scale(1.025); /* Slight zoom effect */
 }
 
 #start-menu {
@@ -76,44 +89,6 @@ button:hover {
 
 #battle {
     display: none;
-}
-
-#menu {
-    position: fixed;
-    top: 0;
-    left: -200px;
-    width: 200px;
-    height: 100%;
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease;
-    z-index: 1000;
-}
-
-#menu:hover {
-    left: 0
-}
-
-#menu h3 {
-    margin-top: 0;
-    font-size: 18px;
-    border-bottom: 1px solid white;
-    padding-bottom: 5px;
-}
-
-#menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-#menu ul li {
-    margin: 10px 0;
-}
-
-#menu ul li:hover {
-    text-decoration: underline;
 }
 
 #user-input:hover {
@@ -146,4 +121,8 @@ button:hover {
 #user-input::placeholder {
     color: #555;
     font-size: 14px;
+}
+
+.game {
+    display: block;
 }

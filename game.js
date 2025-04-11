@@ -107,7 +107,9 @@ const ItemImg = [
 ];
 
 function randomItem() {
-  const randomitem = M;
+  const randomindex = Math.floor(Math.random() * ItemImg.length);
+  const randomItem = ItemImg[randomindex];
+  return randomItem;
 }
 
 window.onload = startMenu;

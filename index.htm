@@ -8,31 +8,17 @@
 </head>
 <body>
     <img src="img/cursor.png" class="custom-cursor" id="cursor">
-    <div id="start-menu">
-        <h1>WELCOME TO DUNGEON!</h1>
-        <button id="start-button">Start Game</button>
-    </div>
-    <div id="choose-name">
-        <div class="container">
-            <input type="text" id="user-input" placeholder="Enter username" autocomplete="off">
-            <button id="submit-button">Submit</button>
+    <div class="introduction">
+        <div id="start-menu">
+            <h1>WELCOME TO DUNGEON!</h1>
+            <button id="start-button">Start Game</button>
         </div>
-    </div>
-    <div id="doors">
-        <h2>Pick a door!</h2>
-        <img class="door" id="door1" src="img/closed_door.png">
-        <img class="door" id="door2" src="img/closed_door.png">
-        <img class="door" id="door3" src="img/closed_door.png">
-    </div>
-    <div id="item">
-        <h5>Pick an item!<h5>
-        
-    </div>
-    <div id="trap">
-        trap
-    </div>
-    <div id="battle">
-        <h4>Battle!<h5>
+        <div id="choose-name">
+            <div class="container">
+                <input type="text" id="user-input" placeholder="Enter username" autocomplete="off">
+                <button id="submit-button">Submit</button>
+            </div>
+        </div>
     </div>
     <div id="menu">
         <h3>Player</h3>
@@ -46,6 +32,24 @@
             <li>Settings</li>
             <li>Help</li>
         </ul>
+    </div>
+    <div class="game">
+        <div id="doors">
+            <h2>Pick a door!</h2>
+            <img class="door" id="door1" src="img/door/closed.png">
+            <img class="door" id="door2" src="img/door/closed.png">
+            <img class="door" id="door3" src="img/door/closed.png">
+        </div>
+        <div id="item">
+            <h5>Pick an item!<h5>
+            
+        </div>
+        <div id="trap">
+            trap
+        </div>
+        <div id="battle">
+            <h4>Battle!<h5>
+        </div>
     </div>
     <script src="game.js" src="classes.js"></script>
 </body>
