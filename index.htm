@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Dungeon!</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <img src="img/cursor.png" class="custom-cursor" id="cursor">
+    <img src="img/cursor/4.png" class="custom-cursor" id="cursor">
     <div class="introduction">
         <div id="start-menu">
             <h1>WELCOME TO DUNGEON!</h1>
@@ -36,9 +36,9 @@
     <div class="game">
         <div id="doors">
             <h2>Pick a door!</h2>
-            <img class="door" id="door1" src="img/door/closed.png">
-            <img class="door" id="door2" src="img/door/closed.png">
-            <img class="door" id="door3" src="img/door/closed.png">
+            <div class="door" id="door1"></div>
+            <div class="door" id="door2"></div>
+            <div class="door" id="door3"></div>
         </div>
         <div id="item">
             <h5>Pick an item!<h5>
@@ -51,6 +51,6 @@
             <h4>Battle!<h5>
         </div>
     </div>
-    <script src="game.js" src="classes.js"></script>
+    <script src="js/game.js" src="classes.js"></script>
 </body>
 </html>

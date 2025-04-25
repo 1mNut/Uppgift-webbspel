@@ -18,8 +18,8 @@ body {
 
 .custom-cursor {
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 1001;
@@ -46,26 +46,36 @@ button:hover {
     transform: scale(1.1);
 }
 
-@keyframes doorHover {
+@keyframes doorOpen {
     0% {
-        content: url("img/door/closed.png");
+        background-image: url("../img/door/closed.png");
     }
     50% {
-        content: url("img/door/slightly_opened.png");
+        background-image: url("../img/door/slightly_opened.png");
     }
     100% {
-        content: url("img/door/opened.png");
+        background-image: url("../img/door/opened.png");
     }
 }
 
 .door {
     height: 55vh;
     transition: transform 0.2s ease-in-out;
+    background-image: url("../img/door/closed.png");
+    background-size: cover;
+    background-position: center;
 }
 
 .door:hover {
-    animation: doorHover 0.4s forwards; /* Play the animation on hover */
-    transform: scale(1.025); /* Slight zoom effect */
+    animation: doorOpen 0.2s forwards;
+    transform: scale(1.025);
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
 }
 
 #start-menu {
@@ -77,6 +87,8 @@ button:hover {
 
 #doors {
     display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
 }
 
 #item {

@@ -1,9 +1,13 @@
+// -----------------------------------------------
+// kod för egen muspekare
 const cursor = document.getElementById("cursor");
 
 document.addEventListener("mousemove", (e) => {
   cursor.style.left = `${e.clientX}px`;
   cursor.style.top = `${e.clientY}px`;
 });
+// kod för egen muspekare
+// ----------------------------------------------
 
 function startMenu() {
   const startButton = document.getElementById("start-button");
@@ -38,6 +42,7 @@ function createName() {
     chooseName.style.display = "none";
     pickDoor.style.display = "block";
     slideMenu.style.display = "flex";
+    slideMenu.style.flexDirection = "column";
     startGame(player);
   });
 }
@@ -97,18 +102,18 @@ class Player {
   }
 }
 
-const ItemImg = [
+const ItemClasses = [
   "img/item/1.png",
   "img/item/2.png",
   "img/item/3.png",
   "img/item/4.png",
   "img/item/5.png",
-  "img/item/6.png",
+  "img/item/0.png",
 ];
 
-function randomItem() {
-  const randomindex = Math.floor(Math.random() * ItemImg.length);
-  const randomItem = ItemImg[randomindex];
+function randomItemClass() {
+  const randomindex = Math.floor(Math.random() * 6);
+  const randomItem = ItemClasses[randomindex];
   return randomItem;
 }
 
