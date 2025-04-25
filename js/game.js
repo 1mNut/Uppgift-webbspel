@@ -23,9 +23,9 @@ function startMenu() {
 }
 
 function createName() {
-  const pickDoor = document.getElementById("doors");
+  const doors = document.getElementById("doors");
   const submitButton = document.getElementById("submit-button");
-  const slideMenu = document.getElementById("menu");
+  const menu = document.getElementById("menu");
   const chooseName = document.getElementById("choose-name");
   const userInput = document.getElementById("user-input");
 
@@ -40,15 +40,13 @@ function createName() {
     const player = new Player(playerName, 100, 20);
 
     chooseName.style.display = "none";
-    pickDoor.style.display = "block";
-    slideMenu.style.display = "flex";
-    slideMenu.style.flexDirection = "column";
+    doors.style.display = "block";
+    menu.style.display = "flex";
     startGame(player);
   });
 }
 
 function startGame(player) {
-  console.log(`Game started with player:${player.name}`);
   const doors = document.querySelectorAll(".door");
 
   doors.forEach((door) => {

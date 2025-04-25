@@ -34,6 +34,8 @@ h1, h2 {
     image-rendering: pixelated;
 }
 
+
+/* knapp */
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -45,7 +47,9 @@ button {
 button:hover {
     transform: scale(1.1);
 }
+/* knapp */
 
+/* dörr */
 @keyframes doorOpen {
     0% {
         background-image: url("../img/door/closed.png");
@@ -68,48 +72,12 @@ button:hover {
 
 .door:hover {
     animation: doorOpen 0.2s forwards;
-    transform: scale(1.025);
 }
+/* dörr */
 
-#menu {
-    display: none;
-    position: absolute;
-    top: 0vh;
-    left: 0vw;
-}
-
-#start-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-#doors {
-    display: none;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-}
-
-#item {
-    display: none;
-}
-
-#trap {
-    display: none;
-}
-
-#battle {
-    display: none;
-}
-
+/* enter username */
 #user-input:hover {
     cursor: none;
-}
-
-#choose-name {
-    display: none;
-    justify-content: center;
 }
 
 #user-input {
@@ -134,7 +102,4 @@ button:hover {
     color: #555;
     font-size: 14px;
 }
-
-.game {
-    display: block;
-}
+/* enter username */
