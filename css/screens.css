@@ -1,10 +1,3 @@
-#start-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
 #menu {
     display: none;
     flex-direction: column;
@@ -16,8 +9,17 @@
     line-height: 20px;
 }
 
+#start-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 #doors {
     display: none;
+    position: relative;
+    justify-content: center;
 }
 
 #item {

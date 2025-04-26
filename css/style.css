@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    box-shadow: 0 0 15px red;
+    /* box-shadow: 0 0 15px red; */
 }
 
 body {
@@ -10,19 +10,9 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 100vh;
-    background-color: #333;
+    background-color: #444742;
     color: white;
-}
-
-.custom-cursor {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 1001;
 }
 
 h1, h2 {
@@ -34,6 +24,16 @@ h1, h2 {
     image-rendering: pixelated;
 }
 
+/* våran pekare som används för att ge spelet extra inlevelse */
+.custom-cursor {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+}
+/* våran pekare som används för att ge spelet extra inlevelse */
 
 /* knapp */
 button {
@@ -64,7 +64,8 @@ button:hover {
 
 .door {
     height: 55vh;
-    transition: transform 0.2s ease-in-out;
+    width: 20vw;
+    transition: transform 0.3s ease-in-out;
     background-image: url("../img/door/closed.png");
     background-size: cover;
     background-position: center;
@@ -103,3 +104,21 @@ button:hover {
     font-size: 14px;
 }
 /* enter username */
+
+#door1 {
+    position: absolute;
+    top: 200px;
+    left: -300px;
+}
+
+#door2 {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+#door3 {
+    position: absolute;
+    top: 200px;
+    left: 700px;
+}

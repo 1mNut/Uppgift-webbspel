@@ -40,7 +40,7 @@ function createName() {
     const player = new Player(playerName, 100, 20);
 
     chooseName.style.display = "none";
-    doors.style.display = "block";
+    doors.style.display = "flex";
     menu.style.display = "flex";
     startGame(player);
   });
