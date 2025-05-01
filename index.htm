@@ -2,55 +2,22 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Dungeon!</title>
+    <title>The Island!</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link rel="stylesheet" href="css/screens.css" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <img src="img/cursor/4.png" class="custom-cursor" id="cursor">
-    <div class="introduction">
-        <div id="start-menu">
-            <h1>WELCOME TO DUNGEON!</h1>
-            <button id="start-button">Start Game</button>
-        </div>
-        <div id="choose-name">
-            <div class="container">
-                <input type="text" id="user-input" placeholder="Enter username" autocomplete="off">
-                <button id="submit-button">Submit</button>
-            </div>
-        </div>
+    <div class="startMenu">
+        <div class="title-wrapper">
+            <div class="title-banner">The Island!</div>
+            <button id="start">Start</button>
+          </div>
+          <div class="scanlines"></div>
     </div>
-    <div id="menu">
-        <h3>Player</h3>
-        <ul id="inventory-list">
-            <li>Inventory</li>
-            <li>Stats</li>
-            <li></li>
-        </ul>
-        <h3>Options</h3>
-        <ul>
-            <li>Settings</li>
-        </ul>
+    <div>
+        <canvas id="gameCanvas"></canvas>
     </div>
-    <div class="game">
-        <div id="doors">
-            <h2>Pick a door!</h2>
-            <div class="door" id="door1"></div>
-            <div class="door" id="door2"></div>
-            <div class="door" id="door3"></div>
-        </div>
-        <div id="item">
-            <h5>Pick an item!<h5>
-            
-        </div>
-        <div id="trap">
-            trap
-        </div>
-        <div id="battle">
-            <h4>Battle!<h5>
-        </div>
-    </div>
-    <script src="js/game.js" src="js/classes.js"></script>
 </body>
+<script src="js/game.js"></script>
 </html>

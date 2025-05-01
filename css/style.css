@@ -1,124 +1,97 @@
-* {
-    box-sizing: border-box;
-    /* box-shadow: 0 0 15px red; */
-}
-
-body {
-    cursor: none;
-    font-family: Arial, sans-serif;
+html, body {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    background-color: #444742;
-    color: white;
-}
-
-h1, h2 {
+    height: 100%;
+    background: #2c1446;
+    color: #b6a0f2;
     font-family: 'Press Start 2P', cursive;
-    font-size: 50px;
-    color: #21ce21be;
-    text-shadow: 2px 2px 0 #000, 4px 4px 0 #00ff00;
-    text-align: center;
-    image-rendering: pixelated;
+    overflow: hidden;
+  }
+
+/* startmenu style */
+
+.startMenu {
+    display: flex;
 }
 
-/* våran pekare som används för att ge spelet extra inlevelse */
-.custom-cursor {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 1001;
-}
-/* våran pekare som används för att ge spelet extra inlevelse */
-
-/* knapp */
 button {
+    margin-top: 40px;
     padding: 10px 20px;
-    font-size: 16px;
-    transition: 0.2s all ease-in-out;
-    border-radius: 5px;
-    cursor: none;
+    font-size: 12px;
+    background: #491e78;
+    color: #fff;
+    border: 2px solid #b6a0f2;
 }
 
 button:hover {
-    transform: scale(1.1);
-}
-/* knapp */
-
-/* dörr */
-@keyframes doorOpen {
-    0% {
-        background-image: url("../img/door/closed.png");
-    }
-    50% {
-        background-image: url("../img/door/slightly_opened.png");
-    }
-    100% {
-        background-image: url("../img/door/opened.png");
-    }
+    background: #6b38a3;
 }
 
-.door {
-    height: 55vh;
-    width: 20vw;
-    transition: transform 0.3s ease-in-out;
-    background-image: url("../img/door/closed.png");
-    background-size: cover;
-    background-position: center;
-}
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+  }
 
-.door:hover {
-    animation: doorOpen 0.2s forwards;
-}
-/* dörr */
-
-/* enter username */
-#user-input:hover {
-    cursor: none;
-}
-
-#user-input {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 16px;
-    color: #21ce21be;
-    background-color: #000;
-    border: 2px solid #21ce21be;
-    padding: 10px;
-    width: 300px;
+.titlescreen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    outline: none;
-    box-shadow: 0 0 10px #21ce21be;
-    transition: box-shadow 0.3s ease-in-out;
+  }
+
+.title-banner {
+    background-color: #3c1c5e;
+    border: 4px solid #ff0033;
+    padding: 20px 40px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #d8b4ff;
+    font-size: 24px;
+    text-shadow: 2px 2px #000;
+    box-shadow: 0 0 10px #291241;
 }
 
-#user-input:focus {
-    box-shadow: 0 0 20px #00ff00;
-}
-
-#user-input::placeholder {
-    color: #555;
-    font-size: 14px;
-}
-/* enter username */
-
-#door1 {
+.scanlines {
     position: absolute;
-    top: 200px;
-    left: -300px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 2;
+    animation: flicker 0.2s infinite;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+/* startmenu style */
+
+
+
+
+/* game style */
+
+#gameCanvas {
+    display: none;
+    width: 100vw;
+    height: 100vh;
 }
 
-#door2 {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
-
-#door3 {
-    position: absolute;
-    top: 200px;
-    left: 700px;
-}
+/* game style */
