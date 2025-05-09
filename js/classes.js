@@ -1,9 +1,11 @@
 export class Player {
-  constructor(x, y, size, speed) {
+  constructor(x, y, size, speed, health, strength) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.speed = speed;
+    this.health = health;
+    this.strength = strength;
     this.dx = 0;
     this.dy = 0;
   }

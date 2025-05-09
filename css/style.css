@@ -83,10 +83,14 @@ button:hover {
 
 /* startmenu style */
 
-
-
-
 /* game style */
+
+#menu {
+  display: none;
+  position: absolute;
+  color: white;
+  margin: 20px;
+}
 
 #gameCanvas {
     display: none;

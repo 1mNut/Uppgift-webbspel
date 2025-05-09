@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   const startButton = document.getElementById("start");
   const startMenu = document.querySelector(".startMenu");
+  const menu = document.getElementById("menu");
 
   const TILE_SIZE = 64;
 
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let row = 0; row < map.length; row++) {
       for (let col = 0; col < map[row].length; col++) {
         if (map[row][col] === 1) {
-          return new Player(col * TILE_SIZE, row * TILE_SIZE, 50, 3);
+          return new Player(col * TILE_SIZE, row * TILE_SIZE, 50, 3, 100, 50);
         }
       }
     }
@@ -67,6 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return new Enemy(randomTile.x, randomTile.y, 50, 1.5);
   }
 
+  function updateMenu() {
+    menu.innerHTML = `
+    Health: ${player.health}<br><br>
+    Strength: ${player.strength}
+    `;
+  }
+
   function drawGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let row = 0; row < map.length; row++) {
@@ -82,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       enemy.update(player, map, TILE_SIZE);
       enemy.draw(ctx);
     });
+    updateMenu();
   }
 
   function gameLoop() {
@@ -131,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", () => {
     startMenu.style.display = "none";
     canvas.style.display = "block";
+    menu.style.display = "block";
     gameLoop();
   });
 });
