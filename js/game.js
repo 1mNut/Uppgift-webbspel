@@ -73,6 +73,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  class Enemy {
+    constructor(x, y, size, speed) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.speed = speed;
+    }
+
+    draw() {
+      ctx.fillStyle = "red";
+      ctx.fillRect(this.x, this.y, this.size, this.size);
+    }
+
+    update(player) {
+      const dx = player.x - this.x;
+      const dy = player.y - this.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 0) {
+        this.x += (dx / distance) * this.speed;
+        this.y += (dy / distance) * this.speed;
+      }
+    }
+  }
+
+  function spawnEnemy() {
+    let spawnTiles = [];
+
+    for (let row = 0; row < map.length; row++) {
+      for (let col = 0; col < map[row].length; col++) {
+        if (map[row][col] === 1) {
+          spawnTiles.push({ x: col * TILE_SIZE, y: row * TILE_SIZE });
+        }
+      }
+    }
+
+    const randomTile =
+      spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
+    return new Enemy(randomTile.x, randomTile.y, 50, 1.5);
+  }
+
+  const enemies = [];
+  enemies.push(spawnEnemy());
+
   let playerX = 0;
   let playerY = 0;
   for (let row = 0; row < map.length; row++) {
@@ -102,6 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     player.draw();
+    enemies.forEach((enemy) => {
+      enemy.update(player);
+      enemy.draw();
+    });
   }
 
   function gameLoop() {
@@ -151,15 +199,26 @@ document.addEventListener("DOMContentLoaded", () => {
   let tilesLoaded = 0;
   const totalTiles = Object.keys(tiles).length;
 
+  startButton.addEventListener("click", () => {
+    console.log("Start button clicked");
+    startMenu.style.display = "none";
+    canvas.style.display = "block";
+    gameLoop();
+  });
+
   for (const key in tiles) {
     tiles[key].onload = () => {
       tilesLoaded++;
       if (tilesLoaded === totalTiles) {
-        startButton.addEventListener("click", () => {
-          startMenu.style.display = "none";
-          canvas.style.display = "block";
-          gameLoop();
-        });
+        console.log("All tiles loaded successfully.");
+      }
+    };
+
+    tiles[key].onerror = () => {
+      console.error(`Failed to load tile image: ${tiles[key].src}`);
+      tilesLoaded++;
+      if (tilesLoaded === totalTiles) {
+        console.log("Proceeding despite image loading errors.");
       }
     };
   }
