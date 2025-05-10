@@ -1,85 +1,99 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #2c1446;
-    color: #b6a0f2;
-    font-family: 'Press Start 2P', cursive;
-    overflow: hidden;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: #b6a0f2;
+  font-family: 'Press Start 2P', cursive;
+  overflow: hidden;
+  display: flex;
+}
+
+body {
+  background-image: url(../img/titlescreen_background.png);
+  background-repeat: no-repeat;
+}
 
 /* startmenu style */
 
 .startMenu {
-    display: flex;
+  display: flex;
 }
 
 button {
-    margin-top: 40px;
-    padding: 10px 20px;
-    font-size: 12px;
-    background: #491e78;
-    color: #fff;
-    border: 2px solid #b6a0f2;
+  margin-top: 40px;
+  padding: 5px 20px;
+  font-size: 20px;
+  color: #fff;
+  transition: 0.1s ease-in-out;
+  border: none;
+  background: none;
 }
 
 button:hover {
-    background: #6b38a3;
+  background: rgba(0, 0, 0, 0.3)
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 .title-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 40px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin: 100px 0 0 100px;
+}
 
 .titlescreen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 .title-banner {
-    background-color: #3c1c5e;
-    border: 4px solid #ff0033;
-    padding: 20px 40px;
-    text-align: center;
-    text-transform: uppercase;
-    color: #d8b4ff;
-    font-size: 24px;
-    text-shadow: 2px 2px #000;
-    box-shadow: 0 0 10px #291241;
+  padding: 20px 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: #d8b4ff;
+  font-size: 50px;
+  text-shadow: 2px 2px #000;
 }
 
 .scanlines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-      to bottom,
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(to bottom,
       rgba(0, 0, 0, 0.1),
       rgba(0, 0, 0, 0.1) 1px,
       transparent 1px,
-      transparent 3px
-    );
-    pointer-events: none;
-    z-index: 2;
-    animation: flicker 0.2s infinite;
+      transparent 3px);
+  pointer-events: none;
+  z-index: 2;
+  animation: flicker 0.2s infinite;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.5;
   }
 
-  @keyframes flicker {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
+  50% {
+    opacity: 1;
   }
+
+  100% {
+    opacity: 0.5;
+  }
+}
 
 /* startmenu style */
 
@@ -93,9 +107,137 @@ button:hover {
 }
 
 #gameCanvas {
-    display: none;
-    width: 100vw;
-    height: 100vh;
+  display: none;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* game style */
+
+/* end of game style */
+
+.endMenu {
+  display: none;
+  text-align: center;
+  flex-direction: column;
+}
+
+/* end of game style */
+
+/* pause menu */
+
+.pauseMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 40px;
+}
+
+.pauseMenu .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 4px solid #b6a0f2;
+  box-shadow: 0 0 10px #b6a0f2;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  color: #fff;
+}
+
+.pauseMenu .container button {
+  width: 200px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  background-color: #333;
+  border: 4px solid #b6a0f2;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: transform 0.1s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.pauseMenu .container button:hover {
+  background-color: #444;
+  border-color: #d8b4ff;
+}
+
+.pauseMenu .container button:active {
+  transform: scale(0.95);
+  background-color: #222;
+}
+
+.pauseMenu .container button,
+.pauseMenu .container {
+  image-rendering: pixelated;
+}
+
+/* pause menu */
+
+/* win screen style */
+
+.winMenu {
+  display: none;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 4px solid #b6a0f2;
+  box-shadow: 0 0 10px #b6a0f2;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+}
+
+.winMenu button {
+  width: 200px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  background-color: #333;
+  border: 4px solid #b6a0f2;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.winMenu button:hover {
+  background-color: #444;
+  border-color: #d8b4ff;
+}
+
+.winMenu button:active {
+  transform: scale(0.95);
+  background-color: #222;
+}
+
+/* win screen style */

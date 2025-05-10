@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>The Island!</title>
+    <title>The Ruins!</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="startMenu">
         <div class="title-wrapper">
-            <div class="title-banner">The Island!</div>
-            <button id="start">Start</button>
-          </div>
-          <div class="scanlines"></div>
+            <div class="title-banner">The Ruins!</div>
+            <button id="start">Enter</button>
+        </div>
+        <div class="scanlines"></div>
     </div>
     <div>
         <div id="menu"></div>
         <canvas id="gameCanvas"></canvas>
     </div>
+    <div class="endMenu">
+        <p>You died<br><br>Would You like to try again?</p>
+        <p></p>
+        <button id="try-again">Play again</button>
+    </div>
+    <div class="pauseMenu">
+        <div class="container">
+            <button id="restartButton">Restart</button>
+        </div>
+    </div>
+    <div class="winMenu">
+        <p>Congratulations! You defeated all the enemies!</p>
+        <button id="play-again">Play Again</button>
+    </div>
 </body>
 <script type="module" src="js/classes.js"></script>
 <script type="module" src="js/game.js"></script>
+
 </html>
