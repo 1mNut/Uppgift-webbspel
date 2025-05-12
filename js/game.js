@@ -13,12 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const endMenu = document.querySelector(".endMenu");
   const pauseMenu = document.querySelector(".pauseMenu");
   const winMenu = document.querySelector(".winMenu");
+  const playAgainButton = document.getElementById("play-again"); // Add this line
 
   let gameRunning = false;
   let paused = false;
   let enemies = [];
   let player = spawnPlayer();
-  let remainingEnemies = 3;
+  let remainingEnemies = 2; // Only 2 more after the first
   let mapOffsetX = 0;
   let mapOffsetY = 0;
   let eliminationCount = 0;
@@ -79,15 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMenu();
   }
 
-  let totalSpawnedEnemies = 4;
+  let totalSpawnedEnemies = 1; // Already spawned 1 at start
 
   function startEnemySpawnTimer() {
     const spawnInterval = setInterval(() => {
-      if (totalSpawnedEnemies < 5) {
+      if (totalSpawnedEnemies < 3) {
         const newEnemy = spawnEnemy();
         if (newEnemy) {
           enemies.push(newEnemy);
           totalSpawnedEnemies++;
+          remainingEnemies++;
         }
       } else {
         clearInterval(spawnInterval);
@@ -112,14 +114,17 @@ document.addEventListener("DOMContentLoaded", () => {
           remainingEnemies--;
           eliminationCount++; // Increment the count here
 
-          // Spawn the next enemy if there are more remaining
-          if (remainingEnemies > 0) {
-            enemies.push(spawnEnemy());
-          } else if (remainingEnemies === 0) {
+          // Trigger win screen after 3 kills
+          if (eliminationCount === 3) {
             gameRunning = false;
             canvas.style.display = "none";
             menu.style.display = "none";
             winMenu.style.display = "flex";
+          }
+          // Spawn the next enemy if there are more remaining and not yet 3 kills
+          else if (remainingEnemies > 0 && totalSpawnedEnemies < 3) {
+            enemies.push(spawnEnemy());
+            totalSpawnedEnemies++;
           }
         }
       });
@@ -138,8 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetGame() {
     player = spawnPlayer();
     enemies = [spawnEnemy()];
-    remainingEnemies = 3;
+    remainingEnemies = 2; // Only 2 more after the first
     eliminationCount = 0; // Reset the count here
+    totalSpawnedEnemies = 1; // Reset to 1
     gameRunning = true;
     canvas.style.display = "block";
     menu.style.display = "block";
@@ -214,12 +220,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   againButton.addEventListener("click", () => {
-    resetGame();
+    window.location.reload();
   });
 
   restartButton.addEventListener("click", () => {
     paused = false;
     pauseMenu.style.display = "none";
     resetGame();
+  });
+
+  playAgainButton.addEventListener("click", () => {
+    window.location.href = "index.htm";
   });
 });
