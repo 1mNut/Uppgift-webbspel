@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("start");
   const menu = document.getElementById("menu");
   const againButton = document.getElementById("try-again");
-  const restartButton = document.getElementById("restartButton")
-  const quitButton = document.getElementById("quitButton")
+  const restartButton = document.getElementById("restartButton");
+  const quitButton = document.getElementById("quitButton");
   const startMenu = document.querySelector(".startMenu");
   const endMenu = document.querySelector(".endMenu");
   const pauseMenu = document.querySelector(".pauseMenu");
-  const winMenu = document.querySelector(".winMenu")
+  const winMenu = document.querySelector(".winMenu");
 
   let gameRunning = false;
   let paused = false;
@@ -23,39 +23,38 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = map[0].length * TILE_SIZE;
   canvas.height = map.length * TILE_SIZE;
 
-
   enemies.push(spawnEnemy());
 
   function spawnPlayer() {
     return new Player(75, 75, 75, 2, 100, 50);
   }
 
-function spawnEnemy() {
-  let spawnTiles = [];
-  for (let row = 0; row < map.length; row++) {
-    for (let col = 0; col < map[row].length; col++) {
-      if (walkableTiles.includes(map[row][col])) {
-        spawnTiles.push({ x: col * TILE_SIZE, y: row * TILE_SIZE });
+  function spawnEnemy() {
+    let spawnTiles = [];
+    for (let row = 0; row < map.length; row++) {
+      for (let col = 0; col < map[row].length; col++) {
+        if (walkableTiles.includes(map[row][col])) {
+          spawnTiles.push({ x: col * TILE_SIZE, y: row * TILE_SIZE });
+        }
       }
     }
+
+    if (spawnTiles.length === 0) {
+      return null;
+    }
+
+    const randomTile =
+      spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
+
+    const enemySize = 75;
+    const maxX = map[0].length * TILE_SIZE - enemySize;
+    const maxY = map.length * TILE_SIZE - enemySize;
+
+    const spawnX = Math.min(randomTile.x, maxX);
+    const spawnY = Math.min(randomTile.y, maxY);
+
+    return new Enemy(spawnX, spawnY, enemySize, 1.5);
   }
-
-  if (spawnTiles.length === 0) {
-    return null;
-  }
-
-
-  const randomTile = spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
-
-  const enemySize = 75;
-  const maxX = map[0].length * TILE_SIZE - enemySize;
-  const maxY = map.length * TILE_SIZE - enemySize;
-
-  const spawnX = Math.min(randomTile.x, maxX);
-  const spawnY = Math.min(randomTile.y, maxY);
-
-  return new Enemy(spawnX, spawnY, enemySize, 1.5);
-}
 
   function updateMenu() {
     menu.innerHTML = `
@@ -94,6 +93,22 @@ function spawnEnemy() {
     updateMenu();
   }
 
+  let totalSpawnedEnemies = 1;
+
+  function startEnemySpawnTimer() {
+    const spawnInterval = setInterval(() => {
+      if (totalSpawnedEnemies < 5) {
+        const newEnemy = spawnEnemy();
+        if (newEnemy) {
+          enemies.push(newEnemy);
+          totalSpawnedEnemies++;
+        }
+      } else {
+        clearInterval(spawnInterval);
+      }
+    }, 4000);
+  }
+
   function gameLoop() {
     if (!gameRunning || paused) return;
 
@@ -107,6 +122,7 @@ function spawnEnemy() {
         // Check if enemy is defeated
         if (enemy.health <= 0) {
           enemies.splice(index, 1);
+          remainingEnemies--;
 
           // Spawn the next enemy if there are more remaining
           if (remainingEnemies > 0) {
@@ -204,6 +220,7 @@ function spawnEnemy() {
     canvas.style.display = "block";
     menu.style.display = "block";
     gameRunning = true;
+    startEnemySpawnTimer();
     gameLoop();
   });
 
@@ -212,8 +229,8 @@ function spawnEnemy() {
   });
 
   restartButton.addEventListener("click", () => {
-  paused = false;
-  pauseMenu.style.display = "none";
-  resetGame();
+    paused = false;
+    pauseMenu.style.display = "none";
+    resetGame();
   });
 });
