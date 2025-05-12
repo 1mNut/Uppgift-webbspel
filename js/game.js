@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const endMenu = document.querySelector(".endMenu");
   const pauseMenu = document.querySelector(".pauseMenu");
   const winMenu = document.querySelector(".winMenu");
-  const playAgainButton = document.getElementById("play-again"); // Add this line
+  const playAgainButton = document.getElementById("play-again");
 
   let gameRunning = false;
   let paused = false;
   let enemies = [];
   let player = spawnPlayer();
-  let remainingEnemies = 2; // Only 2 more after the first
+  let remainingEnemies = 2;
   let mapOffsetX = 0;
   let mapOffsetY = 0;
   let eliminationCount = 0;
@@ -34,13 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function spawnEnemy() {
-    // Calculate the center tile
+
     const centerCol = Math.floor(map[0].length / 2);
     const centerRow = Math.floor(map.length / 2);
     const x = centerCol * TILE_SIZE;
     const y = centerRow * TILE_SIZE;
 
-    // Create a new enemy at the center of the map
     return new Enemy(x, y, 10, 1);
   }
 
@@ -75,12 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    player.draw(ctx); // No offset here!
+    player.draw(ctx);
     enemies.forEach((enemy) => enemy.draw(ctx));
     updateMenu();
   }
 
-  let totalSpawnedEnemies = 1; // Already spawned 1 at start
+  let totalSpawnedEnemies = 1;
 
   function startEnemySpawnTimer() {
     const spawnInterval = setInterval(() => {
@@ -104,24 +103,26 @@ document.addEventListener("DOMContentLoaded", () => {
       player.update(map, TILE_SIZE);
       player.takedamage(enemies);
 
-      // Iterate over a copy of the enemies array
+
       [...enemies].forEach((enemy, index) => {
         enemy.update(player, map, TILE_SIZE);
 
-        // Check if enemy is defeated
-        if (enemy.health <= 0) {
-          enemies.splice(index, 1);
-          remainingEnemies--;
-          eliminationCount++; // Increment the count here
 
-          // Trigger win screen after 3 kills
-          if (eliminationCount === 3) {
+        if (enemy.health <= 0) { // kollar ifall en fiende är död
+          const enemyIndex = enemies.indexOf(enemy);
+          if (enemyIndex !== -1) {
+            enemies.splice(enemyIndex, 1);
+            remainingEnemies--;
+            eliminationCount++;
+          }
+
+          if (eliminationCount === 3) { //ifall man dödar 3 gubbar vinner man
             gameRunning = false;
             canvas.style.display = "none";
             menu.style.display = "none";
             winMenu.style.display = "flex";
           }
-          // Spawn the next enemy if there are more remaining and not yet 3 kills
+
           else if (remainingEnemies > 0 && totalSpawnedEnemies < 3) {
             enemies.push(spawnEnemy());
             totalSpawnedEnemies++;
@@ -131,8 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       drawGame();
       requestAnimationFrame(gameLoop);
-    } else {
-      // Lose condition
+    } else { //händelser som händer när man dör
+
       gameRunning = false;
       canvas.style.display = "none";
       menu.style.display = "none";
@@ -143,9 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetGame() {
     player = spawnPlayer();
     enemies = [spawnEnemy()];
-    remainingEnemies = 2; // Only 2 more after the first
-    eliminationCount = 0; // Reset the count here
-    totalSpawnedEnemies = 1; // Reset to 1
+    remainingEnemies = 2;
+    eliminationCount = 0;
+    totalSpawnedEnemies = 1;
     gameRunning = true;
     canvas.style.display = "block";
     menu.style.display = "block";
@@ -153,42 +154,30 @@ document.addEventListener("DOMContentLoaded", () => {
     gameLoop();
   }
 
+
+
+  const keysPressed = {};  //kod för knapptryckning för att flytta playern:
+
   document.addEventListener("keydown", (event) => {
-    switch (event.key) {
-      case "ArrowUp":
-      case "w":
-        player.dy = -1;
-        break;
-      case "ArrowDown":
-      case "s":
-        player.dy = 1;
-        break;
-      case "ArrowLeft":
-      case "a":
-        player.dx = -1;
-        break;
-      case "ArrowRight":
-      case "d":
-        player.dx = 1;
-        break;
-    }
+    keysPressed[event.key] = true;
+
+    player.dx = 0;
+    player.dy = 0;
+    if (keysPressed["ArrowUp"] || keysPressed["w"]) player.dy = -1;
+    if (keysPressed["ArrowDown"] || keysPressed["s"]) player.dy = 1;
+    if (keysPressed["ArrowLeft"] || keysPressed["a"]) player.dx = -1;
+    if (keysPressed["ArrowRight"] || keysPressed["d"]) player.dx = 1;
   });
 
   document.addEventListener("keyup", (event) => {
-    switch (event.key) {
-      case "ArrowUp":
-      case "w":
-      case "ArrowDown":
-      case "s":
-        player.dy = 0;
-        break;
-      case "ArrowLeft":
-      case "a":
-      case "ArrowRight":
-      case "d":
-        player.dx = 0;
-        break;
-    }
+    keysPressed[event.key] = false;
+
+    player.dx = 0;
+    player.dy = 0;
+    if (keysPressed["ArrowUp"] || keysPressed["w"]) player.dy = -1;
+    if (keysPressed["ArrowDown"] || keysPressed["s"]) player.dy = 1;
+    if (keysPressed["ArrowLeft"] || keysPressed["a"]) player.dx = -1;
+    if (keysPressed["ArrowRight"] || keysPressed["d"]) player.dx = 1;
   });
 
   document.addEventListener("mousedown", (event) => {

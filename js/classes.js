@@ -1,8 +1,8 @@
-export class Player {
+export class Player { // player klass med fart, hp storlek, spawnpunkt och lite grejer för spriten, draw (ctx) för att rita spriten på canvas och update map för att rita ändra sprite frame och attak animation
   constructor(x, y, size, speed, health, spriteWidth, spriteHeight) {
     this.x = x;
     this.y = y;
-    this.size = size; // Hitbox size
+    this.size = size;
     this.speed = speed;
     this.health = health;
     this.dx = 0;
@@ -13,8 +13,8 @@ export class Player {
     this.frameY = 0;
     this.frameWidth = 192;
     this.frameHeight = 192;
-    this.spriteWidth = 75; // Width of the sprite
-    this.spriteHeight = 75; // Height of the sprite
+    this.spriteWidth = 75;
+    this.spriteHeight = 75;
     this.frameDelay = 5;
     this.frameCounter = 0;
     this.lastDirection = "right";
@@ -56,16 +56,27 @@ export class Player {
   }
 
   update(map, TILE_SIZE) {
-    if (this.isAttacking) {
+
+    if (this.isAttacking) { //spritens attack animation startas när player trycker på left click
+
       this.frameCounter++;
       if (this.frameCounter >= this.frameDelay) {
         this.frameCounter = 0;
-        this.frameX = (this.frameX + 1) % 6;
-        if (this.frameX === 0) {
+        this.frameX++;
+
+
+        if (this.frameX >= 6) {
+          this.frameX = 0;
           this.isAttacking = false;
         }
       }
       return;
+    }
+
+    const magnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+    if (magnitude > 0) {
+      this.dx /= magnitude;
+      this.dy /= magnitude;
     }
 
     const newX = this.x + this.dx * this.speed;
@@ -90,6 +101,7 @@ export class Player {
       this.frameCounter = 0;
       this.frameX = (this.frameX + 1) % 6;
     }
+
     if (this.dx < 0) {
       this.lastDirection = "left";
       this.frameY = 1;
@@ -120,7 +132,7 @@ export class Player {
       const dy = this.y - enemy.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance < this.size) {
-        enemy.takeDamage(25); // Just damage, don't remove here!
+        enemy.takeDamage(25);
       }
     });
   }
@@ -132,7 +144,7 @@ export class Player {
   }
 }
 
-export class Enemy {
+export class Enemy { // klassen enemy som har ungefär samma som player med en draw(ctx) för att rita ut spriten på enemy och sedan update för att 
   constructor(x, y, size, speed) {
     this.x = x;
     this.y = y;
@@ -204,35 +216,46 @@ export class Enemy {
     const dy = player.y - this.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // Set direction based on player position
     if (dx < 0) {
       this.lastDirection = "left";
     } else if (dx > 0) {
       this.lastDirection = "right";
     }
 
-    // Move towards player if not in attack range
-    if (distance > this.size) {
-      this.x += (dx / distance) * this.speed;
-      this.y += (dy / distance) * this.speed;
+    if (this.isAttacking) {
 
-      // Animation: running
       this.frameCounter++;
       if (this.frameCounter >= this.frameDelay) {
         this.frameCounter = 0;
-        this.frameX = (this.frameX + 1) % 6; // Assuming 6 frames for running
+        this.frameX++;
+
+        if (this.frameX >= 6) {
+          this.frameX = 0;
+          this.isAttacking = false;
+        }
       }
-      this.frameY = 0; // Set to the correct row for running animation
-    } else {
-      // Animation: idle or attack
-      this.frameX = 0;
-      this.frameY = 1; // Set to the correct row for idle/attack
+      return;
     }
 
-    if (this.health > 0) {
-      if (this.flashTimer > 0) {
-        this.flashTimer--;
+    if (distance > this.size) {
+
+      this.x += (dx / distance) * this.speed;
+      this.y += (dy / distance) * this.speed;
+
+      this.frameCounter++;
+      if (this.frameCounter >= this.frameDelay) {
+        this.frameCounter = 0;
+        this.frameX = (this.frameX + 1) % 6;
       }
+      this.frameY = 1;
+    } else {
+      if (this.attackCooldown === 0) {
+        this.attack(player);
+      }
+    }
+
+    if (this.health > 0 && this.flashTimer > 0) {
+      this.flashTimer--;
     }
 
     if (this.attackCooldown > 0) {
@@ -242,7 +265,7 @@ export class Enemy {
 
   takeDamage(amount) {
     this.health -= amount;
-    this.flashTimer = 10; // Flash for 10 frames
+    this.flashTimer = 10;
   }
 
   attack(player) {
@@ -255,7 +278,8 @@ export class Enemy {
       this.attackCooldown = 60;
 
       this.frameX = 0;
-      this.frameY = 1;
+      this.frameY = 2;
+      this.isAttacking = true;
     }
   }
 }
