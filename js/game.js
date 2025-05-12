@@ -1,4 +1,4 @@
-import { map, tileset, tileSources, walkableTiles, TILE_SIZE } from "./map.js";
+import { map, tileset, tileSources, TILE_SIZE } from "./map.js";
 import { Player, Enemy } from "./classes.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,7 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let paused = false;
   let enemies = [];
   let player = spawnPlayer();
-  let remainingEnemies = 5;
+  let remainingEnemies = 3;
+  let mapOffsetX = 0;
+  let mapOffsetY = 0;
+  let eliminationCount = 0;
 
   canvas.width = map[0].length * TILE_SIZE;
   canvas.height = map.length * TILE_SIZE;
@@ -26,39 +29,25 @@ document.addEventListener("DOMContentLoaded", () => {
   enemies.push(spawnEnemy());
 
   function spawnPlayer() {
-    return new Player(75, 75, 75, 2, 100, 50);
+    return new Player(75, 75, 10, 2, 100, 50);
   }
 
   function spawnEnemy() {
-    let spawnTiles = [];
-    for (let row = 0; row < map.length; row++) {
-      for (let col = 0; col < map[row].length; col++) {
-        if (walkableTiles.includes(map[row][col])) {
-          spawnTiles.push({ x: col * TILE_SIZE, y: row * TILE_SIZE });
-        }
-      }
-    }
+    // Calculate the center tile
+    const centerCol = Math.floor(map[0].length / 2);
+    const centerRow = Math.floor(map.length / 2);
+    const x = centerCol * TILE_SIZE;
+    const y = centerRow * TILE_SIZE;
 
-    if (spawnTiles.length === 0) {
-      return null;
-    }
-
-    const randomTile =
-      spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
-
-    const enemySize = 75;
-    const maxX = map[0].length * TILE_SIZE - enemySize;
-    const maxY = map.length * TILE_SIZE - enemySize;
-
-    const spawnX = Math.min(randomTile.x, maxX);
-    const spawnY = Math.min(randomTile.y, maxY);
-
-    return new Enemy(spawnX, spawnY, enemySize, 1.5);
+    // Create a new enemy at the center of the map
+    return new Enemy(x, y, 10, 1);
   }
 
   function updateMenu() {
     menu.innerHTML = `
-    Health: ${player.health}`;
+    Health: ${player.health}<br>
+    Enemies eliminated: ${eliminationCount}
+  `;
   }
 
   function drawGame() {
@@ -68,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let col = 0; col < map[row].length; col++) {
         const tileType = map[row][col];
         const { sx, sy } = tileSources[tileType];
-        const x = col * TILE_SIZE;
-        const y = row * TILE_SIZE;
+        const x = col * TILE_SIZE + mapOffsetX;
+        const y = row * TILE_SIZE + mapOffsetY;
 
         ctx.drawImage(
           tileset,
@@ -85,15 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    player.draw(ctx);
-    enemies.forEach((enemy) => {
-      enemy.draw(ctx);
-    });
-
+    player.draw(ctx); // No offset here!
+    enemies.forEach((enemy) => enemy.draw(ctx));
     updateMenu();
   }
 
-  let totalSpawnedEnemies = 1;
+  let totalSpawnedEnemies = 4;
 
   function startEnemySpawnTimer() {
     const spawnInterval = setInterval(() => {
@@ -113,16 +99,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!gameRunning || paused) return;
 
     if (player.health > 0) {
-      player.update(map, TILE_SIZE, walkableTiles);
+      player.update(map, TILE_SIZE);
       player.takedamage(enemies);
 
-      enemies.forEach((enemy, index) => {
-        enemy.update(player, map, TILE_SIZE, walkableTiles);
+      // Iterate over a copy of the enemies array
+      [...enemies].forEach((enemy, index) => {
+        enemy.update(player, map, TILE_SIZE);
 
         // Check if enemy is defeated
         if (enemy.health <= 0) {
           enemies.splice(index, 1);
           remainingEnemies--;
+          eliminationCount++; // Increment the count here
 
           // Spawn the next enemy if there are more remaining
           if (remainingEnemies > 0) {
@@ -150,7 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetGame() {
     player = spawnPlayer();
     enemies = [spawnEnemy()];
-    remainingEnemies = 5;
+    remainingEnemies = 3;
+    eliminationCount = 0; // Reset the count here
     gameRunning = true;
     canvas.style.display = "block";
     menu.style.display = "block";
