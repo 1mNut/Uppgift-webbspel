@@ -8,24 +8,24 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
     this.dx = 0;
     this.dy = 0;
     this.sprite = new Image();
-    this.sprite.src = "../img/entities/player.png";
-    this.frameX = 0;
+    this.sprite.src = "../img/entities/player.png"; // sprite sheeten
+    this.frameX = 0; // kolumn och rad av sprite frame i sheeten.
     this.frameY = 0;
-    this.frameWidth = 192;
+    this.frameWidth = 192; //hur stor varje sprite "frame" är inuti sprite sheeten
     this.frameHeight = 192;
     this.spriteWidth = 75;
     this.spriteHeight = 75;
     this.frameDelay = 5;
     this.frameCounter = 0;
-    this.lastDirection = "right";
+    this.lastDirection = "right"; // för att den ska komma ihåg vilket håll spelaren gick sist så att spriten kollar åt det hållet när man slutar gå
     this.isAttacking = false;
     this.attackCooldown = 0;
   }
 
   draw(ctx) {
-    ctx.save();
+    ctx.save(); // sparar hur canvas såg ut innan
 
-    if (this.lastDirection === "left") {
+    if (this.lastDirection === "left") { // rätt sprite bilder fast inverted som gör när den går vänster
       ctx.scale(-1, 1);
       ctx.drawImage(
         this.sprite,
@@ -38,7 +38,7 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
         this.spriteWidth,
         this.spriteHeight
       );
-    } else {
+    } else { // tar rätt sprite bilder när spriten går åt höger håll
       ctx.drawImage(
         this.sprite,
         this.frameX * this.frameWidth,
@@ -52,7 +52,7 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
       );
     }
 
-    ctx.restore();
+    ctx.restore(); // återställer hur den såg ut tillbaka till save tillståndet som var från början
   }
 
   update(map, TILE_SIZE) {
@@ -65,7 +65,7 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
         this.frameX++;
 
 
-        if (this.frameX >= 6) {
+        if (this.frameX >= 6) {  //avsluta animation när sista framen körs
           this.frameX = 0;
           this.isAttacking = false;
         }
@@ -73,11 +73,12 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
       return;
     }
 
-    const magnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+    const magnitude = Math.sqrt(this.dx * this.dx + this.dy * this.dy); // gör så att man inte åker dubbelt så snabbt när man springer diagonellt
     if (magnitude > 0) {
       this.dx /= magnitude;
       this.dy /= magnitude;
     }
+
 
     const newX = this.x + this.dx * this.speed;
     const newY = this.y + this.dy * this.speed;
@@ -86,6 +87,8 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
     const tileX2 = Math.floor((newX + this.size - 1) / TILE_SIZE);
     const tileY2 = Math.floor((newY + this.size - 1) / TILE_SIZE);
 
+
+    //kollar att man är inuti mappen
     if (
       tileY1 >= 0 &&
       tileY2 < map.length &&
@@ -96,13 +99,14 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
       this.y = newY;
     }
 
+    
     this.frameCounter++;
-    if (this.frameCounter >= this.frameDelay) {
+    if (this.frameCounter >= this.frameDelay) { // uppdaterar spring animationen
       this.frameCounter = 0;
       this.frameX = (this.frameX + 1) % 6;
     }
 
-    if (this.dx < 0) {
+    if (this.dx < 0) { // fixar lastdirection variablen att vara korrekt när man går åt det hållet
       this.lastDirection = "left";
       this.frameY = 1;
     } else if (this.dx > 0) {
@@ -114,12 +118,12 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
       this.frameY = 0;
     }
 
-    if (this.attackCooldown > 0) {
+    if (this.attackCooldown > 0) { //cooldown för attack så att man inte kan slå direkt efter
       this.attackCooldown--;
     }
   }
 
-  attack(enemies) {
+  attack(enemies) { // attackerar en fiende och gör så att attack animationen utspelas på playern
     if (this.attackCooldown > 0) return;
 
     this.isAttacking = true;
@@ -137,13 +141,14 @@ export class Player { // player klass med fart, hp storlek, spawnpunkt och lite 
     });
   }
 
-  takedamage(enemies) {
+  takedamage(enemies) { // ifall player attackerar och en av fienderna är inom räckvidd för att ta skada kollar den igenom arrayen för enemies och deras x y värden för att veta vilken ska bli attackerad och skadad.
     [...enemies].forEach((enemy) => {
       enemy.attack(this);
     });
   }
 }
 
+//enemy klassen har ungefär samma inre funktioner som player så jag kommer inte kommentera det igen
 export class Enemy { // klassen enemy som har ungefär samma som player med en draw(ctx) för att rita ut spriten på enemy och sedan update för att 
   constructor(x, y, size, speed) {
     this.x = x;
@@ -166,7 +171,7 @@ export class Enemy { // klassen enemy som har ungefär samma som player med en d
     this.lastDirection = "right";
   }
 
-  draw(ctx) {
+  draw(ctx) { // ritar ut fienden på mappen med spriten från spritesheeten
     ctx.save();
 
     if (this.lastDirection === "left") {
@@ -200,7 +205,7 @@ export class Enemy { // klassen enemy som har ungefär samma som player med en d
         this.spriteWidth,
         this.spriteHeight
       );
-      if (this.flashTimer > 0) {
+      if (this.flashTimer > 0) { // gör röd låda runt fienden när den blir skadad
         ctx.globalAlpha = 0.5;
         ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, this.spriteWidth, this.spriteHeight);
@@ -211,7 +216,7 @@ export class Enemy { // klassen enemy som har ungefär samma som player med en d
     ctx.restore();
   }
 
-  update(player, map, TILE_SIZE) {
+  update(player, map, TILE_SIZE) { //hanterar hur fienden rör på sig genom att röra sig mot playerns koordinater på mappen i den speed som är anvigen till den och ritas ut på mappen. Behöver även hantera hur spriten ändras beroende på hur fienden rör på sig
     const dx = player.x - this.x;
     const dy = player.y - this.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -263,17 +268,17 @@ export class Enemy { // klassen enemy som har ungefär samma som player med en d
     }
   }
 
-  takeDamage(amount) {
+  takeDamage(amount) { // när playern attackerar fiende så körs denna funktion
     this.health -= amount;
     this.flashTimer = 10;
   }
 
-  attack(player) {
+  attack(player) { // attackerar playern och gör så att attack animationen utspelas på fiende spriten när den slår
     const dx = this.x - player.x;
     const dy = this.y - player.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < this.size && this.attackCooldown === 0) {
+    if (distance < this.size && this.attackCooldown === 0) { //ifall player är i fiendens räckvid ska spelaren skadas och sedan läggs en cooldown så att man inte blir skadad för snabbt
       player.health -= 10;
       this.attackCooldown = 60;
 

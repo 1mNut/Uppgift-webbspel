@@ -1,7 +1,7 @@
 export const TILE_SIZE = 32;
 
 // prettier-ignore
-export const map = [
+export const map = [ // mapp array som hanterar vilken tile på mappen som den ska använda ifrån tilesheeten som blir definierad i objektet tilesources, jag använde chatgpt för att skriva ut det objektet med korresponderande koordinater till tilesheet så att jag inte behövde göra det manuellt för 64 tiles.
   [1, 35, 34, 13, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 11, 1, 1, 18, 1, 1, 2],
   [1, 35, 34, 37, 38, 39, 40, 1, 1, 1, 18, 1, 1, 9, 8, 1, 1, 11, 1, 1, 1, 1, 1, 8, 1, 1, 1, 22, 1, 1, 1, 2],
   [1, 43, 34, 45, 46, 47, 48, 1, 18, 18, 1, 1, 1, 1, 11, 1, 1, 4, 1, 35, 36, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 2],

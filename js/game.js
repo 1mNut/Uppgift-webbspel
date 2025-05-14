@@ -1,8 +1,8 @@
 import { map, tileset, tileSources, TILE_SIZE } from "./map.js";
 import { Player, Enemy } from "./classes.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("gameCanvas");
+document.addEventListener("DOMContentLoaded", () => { // kör koden på en gång man laddar in i hemsidan
+  const canvas = document.getElementById("gameCanvas"); // laddar in en massa grejer från html koden för att göra knappar och sätta display none på vissa ställen för senare användning inom koden
   const ctx = canvas.getContext("2d");
   const startButton = document.getElementById("start");
   const menu = document.getElementById("menu");
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const winMenu = document.querySelector(".winMenu");
   const playAgainButton = document.getElementById("play-again");
 
-  let gameRunning = false;
+  let gameRunning = false; // variabler som behövs genom dokumentet för funktionerna
   let paused = false;
   let enemies = [];
   let player = spawnPlayer();
@@ -24,17 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let mapOffsetY = 0;
   let eliminationCount = 0;
 
-  canvas.width = map[0].length * TILE_SIZE;
+  canvas.width = map[0].length * TILE_SIZE; // fixar canvas storlek beroende på hur mapp arrayen ser ut
   canvas.height = map.length * TILE_SIZE;
 
-  enemies.push(spawnEnemy());
+  enemies.push(spawnEnemy()); //spawnar den första fienden
 
-  function spawnPlayer() {
+  function spawnPlayer() { //funktion att spawna playern
     return new Player(75, 75, 10, 2, 100, 50);
   }
 
   function spawnEnemy() {
-
+    //spawnar en fiende på spawn punkten vi har valt ut
     const centerCol = Math.floor(map[0].length / 2);
     const centerRow = Math.floor(map.length / 2);
     const x = centerCol * TILE_SIZE;
@@ -43,14 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return new Enemy(x, y, 10, 1);
   }
 
-  function updateMenu() {
+  function updateMenu() { // funktion för att visa hp:et genom html koden och uppdaterar den när man tar skada
     menu.innerHTML = `
     Health: ${player.health}<br>
     Enemies eliminated: ${eliminationCount}
   `;
   }
 
-  function drawGame() {
+  function drawGame() { // ritar upp mappen, fienden och spelaren
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let row = 0; row < map.length; row++) {
@@ -79,9 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMenu();
   }
 
-  let totalSpawnedEnemies = 1;
+  let totalSpawnedEnemies = 1; // antal fiender som har spawnats
 
-  function startEnemySpawnTimer() {
+  function startEnemySpawnTimer() { // spawn timer funktion som hanterar när spelet ska spawna nästa fiende så länge det finns max 3 fiender spawnar den
     const spawnInterval = setInterval(() => {
       if (totalSpawnedEnemies < 3) {
         const newEnemy = spawnEnemy();
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 4000);
   }
 
-  function gameLoop() {
+  function gameLoop() { // huvud loopen för spelet 
     if (!gameRunning || paused) return;
 
     if (player.health > 0) {
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      drawGame();
+      drawGame(); // ritar om canvasen varje frame
       requestAnimationFrame(gameLoop);
     } else { //händelser som händer när man dör
 
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function resetGame() {
+  function resetGame() { // återställer allt för att kunna köra igen
     player = spawnPlayer();
     enemies = [spawnEnemy()];
     remainingEnemies = 2;
@@ -179,13 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (keysPressed["ArrowLeft"] || keysPressed["a"]) player.dx = -1;
     if (keysPressed["ArrowRight"] || keysPressed["d"]) player.dx = 1;
   });
-
+// attack knapp men ska inte fungera ifall man är på start skärmen annars när start knappen trycks så ser man hur gubben i början av spelet gör ett slag som ser konstigt ut
   document.addEventListener("mousedown", (event) => {
     if (event.button === 0 && startMenu.style.display === "none") {
       player.attack(enemies);
     }
   });
-
+// ta upp escape menyn där man kan restarta gamet eller bara hålla spelet pausat i den statet det var i precis innan
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && startMenu.style.display === "none") {
       paused = !paused;
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
+// knappar för att komma till andra displays/menyer
   startButton.addEventListener("click", () => {
     startMenu.style.display = "none";
     canvas.style.display = "block";
